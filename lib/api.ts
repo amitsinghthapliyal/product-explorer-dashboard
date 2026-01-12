@@ -14,12 +14,20 @@ export async function fetchProducts(): Promise<Product[]> {
   return res.json();
 }
 
-export async function fetchProductById(id: string): Promise<Product> {
-  const res = await fetch(`${BASE_URL}/products/${id}`);
+export async function fetchProductById(id: string): Promise<Product | null> {
+  if (!id) return null;
+
+  const res = await fetch(`https://fakestoreapi.com/products/${id}`, {
+    cache: "no-store",
+  });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch product");
+    return null;
   }
 
-  return res.json();
+  try {
+    return await res.json();
+  } catch {
+    return null;
+  }
 }

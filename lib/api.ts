@@ -5,7 +5,7 @@ const BASE_URL = "https://fakestoreapi.com";
 export async function fetchProducts(): Promise<Product[]> {
   try {
     const res = await fetch(`${BASE_URL}/products`, {
-      next: { revalidate: 3600 },
+      cache: "no-store",
     });
 
     if (!res.ok) {
@@ -15,7 +15,7 @@ export async function fetchProducts(): Promise<Product[]> {
 
     return await res.json();
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.error("Fetch products error:", error);
     return [];
   }
 }

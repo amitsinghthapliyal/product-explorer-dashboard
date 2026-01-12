@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import ProductGrid from "@/components/ProductGrid";
 import { fetchProducts } from "@/lib/api";
 

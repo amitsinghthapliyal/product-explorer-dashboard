@@ -3,15 +3,21 @@ import { Product } from "@/types/product";
 const BASE_URL = "https://fakestoreapi.com";
 
 export async function fetchProducts(): Promise<Product[]> {
-  const res = await fetch(`${BASE_URL}/products`, {
-    next: { revalidate: 3600 },
-  });
+  try {
+    const res = await fetch(`${BASE_URL}/products`, {
+      next: { revalidate: 3600 },
+    });
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch products");
+    if (!res.ok) {
+      console.error("Failed to fetch products:", res.status);
+      return [];
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return [];
   }
-
-  return res.json();
 }
 
 export async function fetchProductById(id: string): Promise<Product | null> {
